@@ -72,7 +72,7 @@ function getStackedCircle(circles, updateGroupElement, shouldSort) {
         var endAngle = 360 - startAngle;
 
         arc = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        arc.setAttribute('d', describeArc(0, 0, 1, startAngle, endAngle));
+        arc.setAttribute('d', describeArc(0, 0, 1, startAngle + 0.1, endAngle - 0.1));
         arc.style.fill = circles[s].fill;
         g.appendChild(arc);
 
