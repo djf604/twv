@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>World Vision WASH</title>
+    <meta name="description" content="A full image reveal effect with thumbnail sliding." />
+    <meta name="keywords" content="reveal, thumbnails, effect, fullscreen images, slide, web design, demo" />
+    <meta name="author" content="Codrops" />
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/twv.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+    <style>
+        .dot-inactive {
+            stroke: #a9aaa9;
+            fill: #ced0ce;
+        }
+
+        .dot-highlight {
+            stroke: #db631e;
+            fill: #F37022;
+        }
+
+
+        .dot {
+            /*stroke: green;*/
+            /*fill: green;*/
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: white;
+            shape-rendering: crispEdges;
+        }
+
+        .axis g.tick text {
+            fill: #F37022;
+        }
+
+        .tooltip {
+            position: absolute;
+            width: 200px;
+            height: 28px;
+            pointer-events: none;
+        }
+
+        .runner-line {
+            stroke: #F37022;
+            stroke-width: 2px;
+            fill: none;
+        }
+    </style>
+    <script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
+</head>
+<body class="loading">
+<div class="fullview__item" id="water-section" style="background-image: url(img/Selection_286.png);display:grid">
+    <span class="fullview__item-number" style="color:white">"You Will Be Like a Well-Watered Garden"</span>
+    <section style="margin:0">
+        <div class="col-content" style="">
+            <p class="large-first-letter">
+                People tend to have their favorite adjectives to describe those who willingly run 26.2 miles: insane,
+                crazy, nuts.
+            </p>
+            <iframe frameborder="0" scrolling="no" src="datamap_africa.html" style="width:100%;height:1500px"></iframe>
+        </div>
+    </section>
+</div>
+<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src="js/TweenMax.min.js"></script>
+<script src="js/demo.js"></script>
+<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+</body>
+</html>

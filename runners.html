@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Runners Demo</title>
+    <meta name="description" content="A full image reveal effect with thumbnail sliding." />
+    <meta name="keywords" content="reveal, thumbnails, effect, fullscreen images, slide, web design, demo" />
+    <meta name="author" content="Codrops" />
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/twv.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+    <style>
+        .dot-inactive {
+            stroke: #a9aaa9;
+            fill: #ced0ce;
+        }
+
+        .dot-highlight {
+            stroke: #db631e;
+            fill: #F37022;
+        }
+
+
+        .dot {
+            /*stroke: green;*/
+            /*fill: green;*/
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: white;
+            shape-rendering: crispEdges;
+        }
+
+        .axis g.tick text {
+            fill: #F37022;
+        }
+
+        .tooltip {
+            position: absolute;
+            width: 200px;
+            height: 28px;
+            pointer-events: none;
+        }
+
+        .runner-line {
+            stroke: #F37022;
+            stroke-width: 2px;
+            fill: none;
+        }
+    </style>
+    <script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
+</head>
+<body class="loading">
+<div class="fullview__item" id="water-section" style="background-image: url(img/runners_bg.jpg);display:grid">
+    <span class="fullview__item-number" style="color:white">We Run Because We Care</span>
+    <section style="margin:0;grid-template-columns: 50% 50%">
+        <div class="col-content" style="height: 1000px">
+            <p class="large-first-letter">
+                People tend to have their favorite adjectives to describe those who willingly run 26.2 miles: insane,
+                crazy, nuts.
+            </p>
+        </div>
+        <div class="col-content" style="display: grid;grid-template-columns: 97% 3%">
+            <div>
+                <p class="instruction">
+                    This is some more text
+                </p>
+            </div>
+
+            <div class="twv-orange-sideliner"></div>
+        </div>
+    </section>
+    <section>
+        <div class="col-content">
+            <p class="large-first-letter">
+                The miles, the time commitment, the constant pounding of foot against pavement are a challenge no doubt,
+                but for us on Team World Vision that's only half the battle. We run to bring clean water to children and
+                communities that desperately need it, but those types of things take money. Asking friends and family
+                to fork over their money isn't a conversation most people are rushing to have, but it's the reason we do
+                this thing.
+            </p>
+            <div style="border: 3px solid white;width:100%" class="instruction">
+                <div style="margin-top: 25px;margin-left:25px">
+                    <span>Filter to: </span>
+                    <select id="runner-plot-filter">
+                        <option value="all">All</option>
+                        <option value="goal_met">Goal Met</option>
+                        <option value="new_runner">New Runners</option>
+                        <option value="returning_runners">Returning Runners</option>
+                        <option value="male_runners">Male Runners</option>
+                        <option value="female_runners">Female Runners</option>
+                        <option value="team_captains">Team Captains</option>
+                    </select>
+                    <span style="margin-left:25px">Total Runners: <span id="runners-total">5034</span></span>
+
+                    <span id="goal-total"></span>
+                    <span id="fundraised-total"></span>
+                </div>
+
+                <svg id="runner-plot" style="width:100%"></svg>
+            </div>
+
+        </div>
+    </section>
+</div>
+<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src="js/TweenMax.min.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/d3_plots/runners_plot.js"></script>
+<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+</body>
+</html>

@@ -1,0 +1,904 @@
+//colors
+$white: #fff;
+$yellow: #ff0;
+$black: #000;
+$silver: #c0c0c0;
+$color_scarpa_flow_approx: #57585c;
+$color_celeste_approx: #d0d0d0;
+
+//fonts
+$font_0: sans-serif;
+$font_1: monospace;
+$font_2: serif;
+$font_3: Playfair Display;
+
+//urls
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,700');
+
+//@extend-elements
+//original selectors
+//sub, sup
+%extend_1 {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+//original selectors
+//button, input, select, textarea
+%extend_2 {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+}
+
+
+article {
+  display: block;
+}
+aside {
+  display: block;
+}
+details {
+  display: block;
+}
+figcaption {
+  display: block;
+}
+figure {
+  display: block;
+  margin: 0;
+}
+footer {
+  display: block;
+}
+header {
+  display: block;
+}
+hgroup {
+  display: block;
+}
+main {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+nav {
+  display: block;
+}
+section {
+  display: block;
+}
+summary {
+  display: block;
+}
+audio {
+  display: inline-block;
+  &:not([controls]) {
+    display: none;
+    height: 0;
+  }
+}
+canvas {
+  display: inline-block;
+}
+video {
+  display: inline-block;
+}
+[hidden] {
+  display: none;
+}
+html {
+  font-family: $font_0;
+  input[type="button"] {
+    cursor: pointer;
+  }
+  input[disabled] {
+    cursor: default;
+  }
+}
+body {
+  margin: 0;
+  font-family: $font_3, $font_2;
+  min-height: 100vh;
+  color: $color_scarpa_flow_approx;
+  color: var(--color-text);
+  //background-color: #F37022aa;
+  background-color: $white;
+  background-color: var(--color-bg);
+
+}
+a {
+  text-decoration: none;
+  border-bottom: 3px solid white;
+  color: var(--color-link);
+  outline: none;
+  &:focus {
+    outline: thin dotted;
+    color: var(--color-link-hover);
+    outline: none;
+  }
+  &:active {
+    outline: 0;
+  }
+  &:hover {
+    outline: 0;
+    color: var(--color-link-hover);
+    outline: none;
+  }
+}
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+b {
+  font-weight: bold;
+}
+strong {
+  font-weight: bold;
+}
+dfn {
+  font-style: italic;
+}
+hr {
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: content-box;
+  height: 0;
+}
+mark {
+  background: $yellow;
+  color: $black;
+}
+code {
+  font-family: $font_1, $font_2;
+  font-size: 1em;
+}
+kbd {
+  font-family: $font_1, $font_2;
+  font-size: 1em;
+}
+pre {
+  font-family: $font_1, $font_2;
+  font-size: 1em;
+  white-space: pre-wrap;
+}
+samp {
+  font-family: $font_1, $font_2;
+  font-size: 1em;
+}
+q {
+  quotes: "\201C" "\201D" "\2018" "\2019";
+}
+small {
+  font-size: 80%;
+}
+sub {
+  @extend %extend_1;
+  bottom: -0.25em;
+}
+sup {
+  @extend %extend_1;
+  top: -0.5em;
+}
+img {
+  border: 0;
+}
+fieldset {
+  border: 1px solid $silver;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+legend {
+  border: 0;
+  padding: 0;
+}
+button {
+  @extend %extend_2;
+  line-height: normal;
+  text-transform: none;
+  cursor: pointer;
+}
+input {
+  @extend %extend_2;
+  line-height: normal;
+}
+select {
+  @extend %extend_2;
+  text-transform: none;
+}
+textarea {
+  @extend %extend_2;
+  overflow: auto;
+  vertical-align: top;
+}
+input[type="reset"] {
+  cursor: pointer;
+}
+input[type="submit"] {
+  cursor: pointer;
+}
+button[disabled] {
+  cursor: default;
+}
+input[type="checkbox"] {
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: border-box;
+  padding: 0;
+}
+input[type="radio"] {
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: border-box;
+  padding: 0;
+}
+input[type="search"] {
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-cancel-button {
+}
+input[type="search"]::-webkit-search-decoration {
+}
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+* {
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: border-box;
+}
+*::after {
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: border-box;
+}
+*::before {
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: border-box;
+}
+.js {
+  .loading::before {
+    content: '';
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg);
+  }
+  .loading::after {
+    content: '';
+    position: fixed;
+    z-index: 100000;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+    pointer-events: none;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 50%;
+    opacity: 0.4;
+    background: var(--color-link);
+    animation: loaderAnim 0.7s linear infinite alternate forwards;
+  }
+}
+@keyframes loaderAnim {
+  to {
+    opacity: 1;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale3d(0.5,0.5,1);
+  }
+}
+.hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.message {
+  position: relative;
+  z-index: 100;
+  padding: 1rem;
+  font-size: 0.75rem;
+  text-align: center;
+  color: var(--color-bg);
+  background: var(--color-text);
+}
+.icon {
+  display: block;
+  width: 1.5em;
+  height: 1.5em;
+  margin: 0 auto;
+  fill: currentColor;
+}
+.grid--thumbs {
+  display: none;
+}
+.grid--outer {
+  padding: 1.5rem;
+}
+.codrops-header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.codrops-header__title {
+  font-size: 1em;
+  font-weight: normal;
+  margin: 0;
+}
+.codrops-links {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 0 1em 0 0;
+  text-align: center;
+  white-space: nowrap;
+}
+.codrops-icon {
+  display: inline-block;
+  margin: 0.15em;
+  padding: 0.25em;
+}
+.github {
+  display: inline-block;
+  text-transform: lowercase;
+  text-align: left;
+}
+.title-wrap {
+  padding: 2rem 0;
+}
+.side {
+  font-size: 0.85rem;
+  color: var(--color-side-text);
+}
+.side__content {
+  display: block;
+  padding: 0 1rem 0 0;
+}
+.grid__item-title {
+  font-weight: normal;
+}
+.title {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+.subtitle {
+  font-size: 1.25rem;
+  margin: 0;
+}
+.year {
+  font-size: 1.25rem;
+  display: block;
+}
+.year::before {
+  content: '―';
+  margin-right: 0.5rem;
+}
+.fullview__item {
+  background-size: cover;
+  background-position: 50% 50%;
+  padding: 80vh 1.5rem 1.5rem;
+  margin: 0 0 2rem 0;
+}
+.fullview__item-titlewrap {
+  padding: 1.5rem;
+  background: $color_celeste_approx;
+}
+.fullview__title {
+  display: none;
+  color: var(--color-title-full);
+  font-weight: normal;
+  font-size: 1rem;
+}
+.fullview__item-number {
+  font-size: 1.5rem;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  background: $color_celeste_approx;
+  display: block;
+}
+.fullview__item-number::before {
+  content: '―';
+  margin-right: 0.5rem;
+}
+.fullview__item-title {
+  font-weight: normal;
+  font-size: 1.75rem;
+  margin: 0;
+}
+.fullview__item-description {
+  font-size: 0.85rem;
+  color: var(--color-description-full);
+}
+.fullview__item-more {
+  font-weight: bold;
+}
+@media screen and(min-width: 55em) {
+  .message {
+    display: none;
+  }
+  .codrops-header {
+    padding: 1.5rem;
+    pointer-events: auto;
+    grid-area: 1 / 1 / 1 / 5;
+  }
+  .title {
+    font-size: 2.75vw;
+
+    img {
+      width: 50%;
+    }
+  }
+  .side {
+    display: flex;
+    writing-mode: vertical-rl;
+    grid-area: 2 / 5 / 2 / 6;
+  }
+  .side__content {
+    padding: 1rem;
+  }
+  .grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 16vw 16vw 16vw 20vw 12vw;
+    grid-column-gap: 5vw;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .grid--outer {
+    padding: 0;
+    grid-template-rows: 10rem auto;
+    align-items: start;
+  }
+  .grid--thumbs {
+    z-index: 100;
+  }
+  .grid__item {
+    pointer-events: auto;
+    align-self: end;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: translate3d(0,30px,0);
+    &:not(.grid__item--more) {
+      cursor: pointer;
+    }
+  }
+  .grid__item::after {
+    content: '';
+    position: absolute;
+    width: calc(100% + 2rem);
+    height: calc(100% + 3rem);
+    bottom: 0;
+    left: 0;
+  }
+  .grid__item-imgwrap {
+    position: relative;
+    overflow: hidden;
+  }
+  .grid__item-img {
+    width: 100%;
+  }
+  .grid__item-bg {
+    width: 120%;
+    height: 120%;
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    background-size: cover;
+  }
+  .title-wrap {
+    padding: 0;
+    grid-area: 2 / 2 / 2 / 6;
+  }
+  .github {
+    margin: 1.5rem 1.5rem 0 0;
+    grid-area: 1 / 5 / 1 / 6;
+    pointer-events: auto;
+    justify-self: start;
+  }
+  .grid__toggle {
+    background: var(--color-toggle-bg);
+    color: var(--color-toggle);
+    border: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    height: calc(12vw + 30px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    position: relative;
+    width: 100%;
+    pointer-events: auto;
+    &:focus {
+      outline: none;
+    }
+  }
+  .grid__toggle-inner {
+    display: flex;
+    align-items: flex-end;
+  }
+  .grid__toggle-more {
+    display: inline-block;
+    margin-top: -30px;
+  }
+  .grid__toggle-back {
+    opacity: 0;
+    position: absolute;
+    height: 50%;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+  }
+  .grid__toggle-icon {
+    width: 0.75rem;
+    height: 1.05rem;
+    margin: 0.15rem 0 0 0.5rem;
+    display: inline-block;
+    fill: currentColor;
+    stroke-width: 1px;
+    stroke: $white;
+  }
+  .grid__toggle-icon--more {
+    height: 0.75rem;
+    stroke-width: 2px;
+  }
+  .grid__item-title {
+    z-index: 100;
+    writing-mode: vertical-rl;
+    position: absolute;
+    top: -2rem;
+    right: -1.75rem;
+    white-space: nowrap;
+    margin: 0;
+    span {
+      display: block;
+    }
+  }
+  .grid__item-number {
+    z-index: 100;
+    writing-mode: vertical-rl;
+    top: -2rem;
+    right: 0;
+    line-height: 1;
+    position: absolute;
+    font-size: 1.5rem;
+    span {
+      display: block;
+    }
+  }
+  .fullview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    //opacity: 0;
+    overflow-y: auto;
+  }
+  .fullview__title {
+    display: block;
+    position: absolute;
+    margin: 2rem;
+    line-height: 1;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    writing-mode: vertical-rl;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale(-1);
+  }
+  .fullview__item {
+    //position: absolute;
+    //top: 0;
+    //left: 0;
+    width: 100%;
+    //height: 100vh;
+    display: none;
+    grid-template-columns: 100%;
+    padding: 2rem;
+    margin: 0;
+    //opacity: 0;
+  }
+  .fullview__item-number {
+    align-self: start;
+    background: none;
+    padding: 0;
+    font-size: 5rem;
+  }
+  .fullview__item-titlewrap {
+    align-self: end;
+    text-align: right;
+    background: none;
+    padding: 0;
+  }
+  .fullview__item-title {
+    font-size: 2.25rem;
+  }
+  .fullview__item-description {
+    max-width: 360px;
+    margin-left: auto;
+  }
+  .revealer {
+    position: absolute;
+    top: 100vh;
+    left: 0;
+    width: 100%;
+    height: 150vh;
+    background: var(--color-revealer);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .js main {
+    height: 100vh;
+    overflow: hidden;
+  }
+  .grid__box:not(:first-child),
+  .grid__box:not(:last-child)  {
+    border: 1px solid var(--color-lines);
+    border-width: 0 1px;
+  }
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+
+.logo {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+
+.page {
+  color: white;
+  background-size: cover;
+  background-attachment: fixed;
+  section {
+    margin-top: 50px;
+    font-size: 1.3rem;
+    padding: 0 10%;
+    display: grid;
+
+    &.col-half {
+      grid-template-columns: 50% 50%;
+    }
+
+    div.col-content {
+      padding: 25px;
+      background-color: rgba(0,0,0,0.65);
+    }
+  }
+}
+
+.instruction {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.progress-bar {
+  background-color: #8B9386;
+  height: 50px;
+  padding: 5px;
+  width: 100%;
+  margin: 50px 0;
+  border-radius: 5px;
+  //box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+
+  span {
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+    transition: width .4s ease-in-out;
+
+    &::after {
+      font-family: 'Open Sans', sans-serif;
+      content: attr(data-content);
+      position: absolute;
+      right: -5rem;
+      top: 5px;
+    }
+  }
+}
+
+.blue span{
+  background-color: #AADAFF;
+}
+
+.large-first-letter:first-letter {
+  float: left;
+  font-size: 6rem;
+  line-height: 60px;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-left: 3px;
+}
+
+.med-text {
+  font-size: 2rem;
+}
+
+.twv-orange-sideliner {
+  height: 100%;
+  width: 100%;
+  background-color: #F37022;
+}
+
+#water-globe-demo {
+  position: relative;
+  margin: 0 10%;
+
+  object {
+    position: absolute;
+    right: 0;
+    width: 60%;
+  }
+}
+
+
+.unicef-plot-legend {
+  padding-left: 25px;
+  width: 100%;
+
+  .legend-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    div:nth-child(1) {
+      height: 60px;
+      width: 25%;
+      margin: 25px;
+      display: flex;
+      align-items: center;
+
+      span {
+        margin: auto;
+      }
+    }
+
+    div:nth-child(2) {
+      width: 75%;
+
+      p {
+        margin: 0;
+      }
+
+      p:nth-child(2) {
+        font-size: 1rem;
+      }
+    }
+  }
+
+}
+
+
+.wash-progress {
+  background-color: #8B9386;
+  height: 50px;
+  padding: 5px;
+  width: 100%;
+  margin: 50px 0;
+  border-radius: 5px;
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+  //box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+
+  span {
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    width: 0;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+    transition: width .4s ease-in-out;
+
+    &::after {
+      font-family: 'Open Sans', sans-serif;
+      content: attr(data-content);
+      position: absolute;
+      right: -5rem;
+      top: 5px;
+    }
+  }
+
+  svg {
+    display:inline-block;
+    float: right;
+    position: relative;
+    top: -20px;
+    left: 30px;
+  }
+}
+
+.orange span{
+  background-color: #F37022;
+}
+
+.wash-progress-grid {
+  font-family: 'Open Sans', sans-serif;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  //padding: 0 10%;
+
+  & > div {
+    padding: 0 5%;
+  }
+}
+
+.dot-inactive {
+  stroke: #a9aaa9;
+  fill: #ced0ce;
+}
+
+.dot-highlight {
+  stroke: #db631e;
+  fill: #F37022;
+}
+
+
+.dot {
+  /*stroke: green;*/
+  /*fill: green;*/
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: white;
+  shape-rendering: crispEdges;
+}
+
+.axis g.tick text {
+  fill: #F37022;
+}
+
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: 28px;
+  pointer-events: none;
+}
+
+.runner-line {
+  stroke: #F37022;
+  stroke-width: 2px;
+  fill: none;
+}
+
+#about {
+  display: none;
+  position:fixed;
+  top:0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  font-size: 2rem;
+  z-index: 50;
+  padding: 10%;
+  overflow: scroll;
+}

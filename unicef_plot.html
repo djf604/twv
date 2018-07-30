@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UNICEF Plot</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+    <style>
+        .dot-inactive {
+            stroke: #e6e8e6;
+            fill: #ced0ce;
+        }
+
+        .dot-highlight {
+            stroke: black;
+            fill: #F37022;
+        }
+
+
+        .dot {
+            /*stroke: #e6e8e6;*/
+        }
+
+        body {
+            font: 11px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: white;
+            shape-rendering: crispEdges;
+        }
+
+        .tooltip {
+            position: absolute;
+            width: 200px;
+            height: 28px;
+            pointer-events: none;
+        }
+
+        .runner-line {
+            stroke: #F37022;
+            stroke-width: 2px;
+            fill: none;
+        }
+    </style>
+</head>
+<body style="background-color: #1C1C1E;color:white">
+<svg id="unicef-plot" style="border: 1px solid white"></svg>
+<button id="play-btn">Play</button>
+<button id="pause-btn">Pause</button>
+<button id="forward-btn">Step Forward</button>
+<button id="backward-btn">Step Backward</button>
+<script>
+    // https://stackoverflow.com/a/18473154/1539628
+    function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+        var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+        return {
+            x: centerX + (radius * Math.cos(angleInRadians)),
+            y: centerY + (radius * Math.sin(angleInRadians))
+        };
+    }
+
+    // https://stackoverflow.com/a/18473154/1539628
+    function describeArc(x, y, radius, startAngle, endAngle){
+        var start = polarToCartesian(x, y, radius, endAngle);
+        var end = polarToCartesian(x, y, radius, startAngle);
+
+        var largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+
+        return [
+            'M', start.x, start.y,
+            'A', radius, radius, 0, largeArcFlag, 0, end.x, end.y, 'Z'
+        ].join(" ");
+    }
+
+    /*
+     * Get a logarithm of arbitrary base
+     */
+    function getBaseLog(x, y) {
+        return Math.log(y) / Math.log(x);
+    }
+
+    /*
+     * Returns the sum of an array of numbers
+     */
+    function arraySum(a) {
+        return a.reduce(function(acc, val) { return acc + val; }, 0)
+    }
+
+    /*
+     * circles must be an array of objects that take the form:
+     *     {color: <color>, percent: [0.0, 1.0]}
+     */
+    function getStackedCircle(circles, updateGroupElement, shouldSort) {
+        if (shouldSort === true){
+            circles.sort(function(a,b) {
+                if (a.percent < b.percent) return -1;
+                if (a.percent > b.percent) return 1;
+                return 0;
+            });
+        }
+
+        // Create complex element
+        var g;
+        if (updateGroupElement !== undefined) {
+            while (updateGroupElement.firstChild)
+                updateGroupElement.removeChild(updateGroupElement.firstChild);
+            g = updateGroupElement;
+        } else {
+            g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.setAttribute('class', 'bubble');
+        }
+
+        // Create the first circle, which will always be full
+        var arc = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        arc.setAttribute('d', describeArc(0, 0, 1, 0, 360));
+        arc.style.fill = circles[0].fill;
+        g.appendChild(arc);
+
+        // Place the other partial circles
+        var sum = circles[0].percent * 100;
+        for (var s = 1; s < circles.length; s++) {
+            var startAngle = sum * 1.8;
+            var endAngle = 360 - startAngle;
+
+            arc = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            arc.setAttribute('d', describeArc(0, 0, 1, startAngle, endAngle));
+            arc.style.fill = circles[s].fill;
+            g.appendChild(arc);
+
+            sum += circles[s].percent * 100;
+        }
+
+        // Place empty fill circle to add a border
+        var border = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        border.setAttribute('d', describeArc(0, 0, 1, 0, 360));
+        border.style.fill = arraySum(circles.map(function(v){return v.percent})) === 0 ? 'black' : 'none';
+        border.style.stroke = 'grey';
+        border.style.strokeWidth = '0.05px';
+        g.appendChild(border);
+
+        return g;
+    }
+
+
+    /*
+     * For a set of data, finds and injects proper y value for bubbles
+     */
+    function findNewBubblePlacement(data, xScale) {
+        var placed = [];
+        for (var i = 0; i < data.length; i++) {
+            data[i].yPlacement = findYPlacement(data[i], xScale, placed);
+        }
+    }
+
+    /*
+     * For an individual bubble, find y placement among already placed dots
+     */
+    function findYPlacement(d, xScale, placed) {
+        var yPlacement = BASELINE_Y,
+            xPlacement = xScale(+d['%_urban']),
+            radius = getBaseLog(1.5, +d['population_thousands']);
+
+        var blacklist = [];
+        for (var j = 0; j < placed.length; j++) {
+            if (Math.abs(xPlacement - placed[j].x) < radius + placed[j].radius + BUBBLE_PADDING) {
+                var a = Math.abs(xPlacement - placed[j].x);
+                var c = radius + placed[j].radius + BUBBLE_PADDING;
+                var b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
+                blacklist.push({start: placed[j].y + b, end: placed[j].y - b, id: j});
+            }
+        }
+
+        // Sort blacklist, then merge
+        blacklist.sort(function(a, b) {
+            if (a.start < b.start) return 1;
+            if (a.start > b.start) return -1;
+            return 0;
+        });
+
+        var finalBlacklist = [];
+        var candidateLocations = [];
+        var segmentStart, greedyEnd;
+        for (var k = 0; k < blacklist.length;) {
+            segmentStart = blacklist[k].start;
+            greedyEnd = blacklist[k].end;
+
+            var next = k + 1;
+            while (next < blacklist.length && blacklist[next].start > greedyEnd) {
+                greedyEnd = d3.min([greedyEnd, blacklist[next].end]);
+                next++;
+            }
+
+            finalBlacklist.push({start: segmentStart, end: greedyEnd});
+            candidateLocations.push(segmentStart);
+            candidateLocations.push(greedyEnd);
+            k = next;
+        }
+
+        var lowest = Infinity;
+        for (var m = 0; m < candidateLocations.length; m ++) {
+            var dist = Math.abs(BASELINE_Y - candidateLocations[m]);
+            if (dist < lowest) {
+                lowest = dist;
+                yPlacement = candidateLocations[m];
+            }
+        }
+
+        placed.push({x: xPlacement, y: yPlacement, radius: radius});
+        return yPlacement;
+    }
+
+    /*
+     * Start D3 chart definition
+     */
+
+    var margin = {top: 50, right: 20, bottom: 50, left: 20},
+        width = 900 - margin.left - margin.right,
+        height = 700 - margin.top - margin.bottom;
+    var BASELINE_Y = 270;
+    var BUBBLE_PADDING = 2;
+    var xScale = d3.scaleLinear().range([0, width]).domain([0, 100]);
+
+    // Set svg object
+    var svg = d3.select('svg#unicef-plot')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    // Draw x-axis, country text, and year text
+    svg.append('line')
+        .attr('x1', xScale(0))
+        .attr('y1', height)
+        .attr('x2', xScale(100))
+        .attr('y2', height)
+        .style('stroke', 'white');
+    var vertLines = [0, 25, 50, 75, 100];
+    for (var v = 0; v < vertLines.length; v++) {
+        svg.append('line')
+            .attr('x1', xScale(vertLines[v]))
+            .attr('y1', margin.top)
+            .attr('x2', xScale(vertLines[v]))
+            .attr('y2', height)
+            .style('stroke', 'white');
+        svg.append('text')
+            .attr('transform', 'translate(' + (xScale(vertLines[v]) + (vertLines[v] === 100 ? -53 : 10))
+                + ', ' + (height - 10) + ')')
+            .style('font-size', '16px')
+            .style('stroke', 'white').style('fill', 'white')
+            .style('text-anchor', 'left')
+            .text(vertLines[v] + '%'); // x-axis label
+    }
+    svg.append('text')
+        .attr('transform', 'translate(' + (width / 2) + ', ' + (height + 30) + ')')
+        .style('font-size', '24px')
+        .style('stroke', 'white').style('fill', 'white')
+        .style('text-anchor', 'middle')
+        .text('% of Population in Urban Areas'); // x-axis label
+    var countryText = svg.append('text')
+        .attr('transform', 'translate(' + (width) + ', ' + (0) + ')')
+        .style('font-size', '24px')
+        .style('stroke', 'white').style('fill', 'white')
+        .style('text-anchor', 'end');
+    var yearText = svg.append('text')
+        .attr('transform', 'translate(' + (0) + ', ' + (0) + ')')
+        .style('font-size', '32px')
+        .style('stroke', 'white').style('fill', 'white')
+        .style('text-anchor', 'start').text(2015);
+
+
+    function update(data, year) {
+        // Filter by year and find bubble placement
+        data = data.filter(function(v) {return v.year === year.toString()});
+        findNewBubblePlacement(data, xScale);
+
+        var bubbles = svg.selectAll('g.bubble').data(data, function(d) {return d['ISO3_country_code']});
+
+        // For new bubbles
+        bubbles.enter().append(function(d) {
+            return getStackedCircle([
+                {fill: 'red', percent: +d['surface_water_national'] / 100},
+                {fill: 'orange', percent: +d['unimproved_national']/ 100},
+                {fill: 'tan', percent: +d['limited_national']/ 100},
+                {fill: 'blue', percent: +d['at_least_basic_national']/ 100}
+            ]);
+        }).attr('transform', function(d) {
+            return 'translate(' + xScale(+d['%_urban']) + ',' + d.yPlacement + ') scale(' + (getBaseLog(1.5, +d['population_thousands'])) + ')';
+        }).attr('class', 'bubble').on('mouseover', function(d) {
+            countryText.text(d['country_area_territory']);
+        });
+
+        // Transition for data update
+        bubbles.each(function(d) {
+            getStackedCircle([
+                {fill: 'red', percent: +d['surface_water_national'] / 100},
+                {fill: 'orange', percent: +d['unimproved_national']/ 100},
+                {fill: 'tan', percent: +d['limited_national']/ 100},
+                {fill: 'blue', percent: +d['at_least_basic_national']/ 100}
+            ], d3.select(this).node());
+        }).transition().duration(800).attr('transform', function(d) {
+            return 'translate(' + xScale(+d['%_urban']) + ',' + d.yPlacement + ') scale(' + (getBaseLog(1.5, +d['population_thousands'])) + ')';
+        });
+        bubbles.exit().remove();
+    }
+
+    /*
+     * Fetch data from CSV
+     */
+    var csv_data;
+    d3.csv('data/unicef_africa.csv').then(function(data) {
+        csv_data = data;
+        update(data, 2015);
+    });
+
+    /*
+     * Set up automatic play
+     */
+    var year = 2015;
+    var interval = d3.interval(function(){}, 1);
+    interval.stop();
+    function changeYear(forward) {
+        if (forward) {
+            if (year === 2015) year = 2000;
+            else year += 1;
+        } else {
+            if (year === 2000) year = 2015;
+            else year -= 1;
+        }
+        yearText.text(year);
+        update(csv_data, year);
+    }
+
+    // Define event handlers for play, pause, step buttons
+    document.getElementById('play-btn').addEventListener('click', function() {
+        year = 2015;
+        changeYear(true);
+        interval = d3.interval(changeYear, 1500);
+    });
+
+    document.getElementById('pause-btn').addEventListener('click', function() {
+        interval.stop();
+    });
+
+    document.getElementById('forward-btn').addEventListener('click', function() {
+        interval.stop();
+        changeYear(true);
+    });
+    document.getElementById('backward-btn').addEventListener('click', function() {
+        interval.stop();
+        changeYear(false);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Runners Plot</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+    <style>
+        .dot-inactive {
+            stroke: #e6e8e6;
+            fill: #ced0ce;
+        }
+
+        .dot-highlight {
+            stroke: #db631e;
+            fill: #F37022;
+        }
+
+
+        .dot {
+            /*stroke: #e6e8e6;*/
+        }
+
+        body {
+            font: 11px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: white;
+            shape-rendering: crispEdges;
+        }
+
+        .tooltip {
+            position: absolute;
+            width: 200px;
+            height: 28px;
+            pointer-events: none;
+        }
+
+        .runner-line {
+            stroke: #F37022;
+            stroke-width: 2px;
+            fill: none;
+        }
+    </style>
+</head>
+<body>
+<button id="met-goal">Show Who Met Their Goal</button>
+<script src="js/d3_plots/runners_plot.js"></script>
+</body>
+</html>

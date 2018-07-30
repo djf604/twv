@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DataViz Final Project</title>
+    <meta name="description" content="A full image reveal effect with thumbnail sliding." />
+    <meta name="keywords" content="reveal, thumbnails, effect, fullscreen images, slide, web design, demo" />
+    <meta name="author" content="Codrops" />
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/twv.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
+</head>
+<body class="loading">
+<div class="fullview__item" id="water-section" style="background-image: url(img/water_bg.jpg);display:grid">
+    <span class="fullview__item-number" style="color:white">Water is Essential</span>
+    <section style="margin:0;grid-template-columns: 50% 50%">
+        <div class="col-content">
+            <p class="large-first-letter">
+                In a developed nation such as the US, access to water is not only assumed to be immediately available but
+                also assumed to be safe. In this context, safe means there’s an extremely low chance of contracting
+                an illness as a direct result drinking the water supply. In many of the poorest parts of the world,
+                water borne diseases and water contamination is a real threat and a constant drag on quality of life.
+                This is the <span class="med-text">Global Water Crisis</span>.
+            </p>
+            <p>
+                Access to clean water is foundational: when this basic need is not met consistently, it averts
+                time and effort away from other community-building activities. When it is no longer a primary
+                issue, people are able to improve their hygiene and sanitation. Children are able to attend school
+                without other duties demanding their attention, and adults can tend to crops and livestock or start
+                businesses. But it all comes out of a bedrock of local, consistent access to clean water.
+            </p>
+            <p>
+                Though this certainly is a global problem (it’s in the name, after all), the efforts of Team
+                World Vision are focused on a subset of African countries of greatest need, and so this
+                publication will primarily present data on the African continent.
+            </p>
+        </div>
+        <div class="col-content" style="display: grid;grid-template-columns: 97% 3%">
+            <div>
+                <p class="instruction">
+                    Click on the bottom of the globe and drag up until you've reached the percentage
+                    you believe represents the amount of people in the world that have access to
+                    clean water. (This doesn't work yet, so ignore it)
+                </p>
+                <div id="water-globe-demo">
+                    <object type="image/svg+xml" data="img/earth-icon.svg">
+                        Your browser does not support SVG
+                    </object>
+                </div>
+            </div>
+
+            <div class="twv-orange-sideliner"></div>
+        </div>
+    </section>
+    <section>
+        <div class="col-content">
+            <p class="large-first-letter">
+                The group most directly affected by the Global Water Crisis are women and children. Strictly considering health,
+                children are most vulnerable to disease which may be lurking in unsanitary water such as cholera or
+                typhoid, leading to extended time away from school or (not too uncommonly) death. Disproportionately,
+                women and girls are tasked with the physical collection of clean water from the nearest source, which
+                can be many kilometers away. It’s estimated that African women and girls collectively spend
+                <span class="med-text">200 million hours</span> each day in collection, half of which involved
+                hauling a jerrycan which can weigh up to 18 kilograms.
+            </p>
+            <div style="display:grid;grid-template-columns: 2% 63% 35%">
+                <div class="twv-orange-sideliner"></div>
+                <div id="water-map-interactive-1" style="margin:0 5%">
+                    <div id="map" style="height: 500px"></div>
+                    <div class="progress-bar blue stripes">
+                        <span id="water-progress-bar-bar" style="width:0"></span>
+                    </div>
+                </div>
+                <div>
+                    <p class="instruction">
+                        How far do you think African children, mostly girls, as a whole group walk daily to collect
+                        clean water?
+                    </p>
+                    <div style="width:80%;height:5px;background-color:#F37022;margin:0 auto"></div>
+                    <p class="instruction">
+                        Starting from Los Angeles, CA, click on the map to create a path representing the
+                        distance you imagine represents the daily journey. Double click on the green icon to finish
+                        your path and calculate the distance.
+                    </p>
+                    <div id="water-result" style="display:none">
+                        <p class="instruction">
+                            Your path is <span id="water-user-distance" class="med-text"></span> kilometers.
+                        </p>
+                        <p class="instruction">
+                            Based on UNICEF estimates of 3.36 million children being responsible for water collection which
+                            is more than 30 minutes away, and having to walk on average 6 kilometers to collect that water,
+                            that's a total traveled distance of 2,016,000 kilometers. Your path is only covers
+                            <span id="water-user-distance-percent"></span>% of that distance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="col-content">
+            <p class="large-first-letter">Efforts to address the Global Water Crisis in the past couple
+            decades have started to improve clean water access on the African continent. Data from UNICEF, a United
+                Nations relief organization,
+            shows that since 2000 the impact of the crises has been improving markedly in some areas, while maintaining
+            a grip on other area, primarily those whose population is less urban. Urban areas are more likely to
+            not only have clean water systems, but system within a reasonable distance from a community. Rural areas
+            may have systems available, but they are either off-site locally (within a 30 minute walk round trip) or
+            not available locally (more than a 30 minutes walk round trip). In extreme cases, no water system is
+            available to a community within any reasonable distance, so it must rely on surface water which may be
+            contaminated by animal feces.</p>
+            <p>
+                Even as of 2015, some countries still have an alarmingly low percentage of residents with immediate
+                access to clean water, considered basic service. It's these countries where World Vision tends to
+                concentrate its efforts to bring accessible clean water to communities.
+            </p>
+        </div>
+        <div class="col-content" style="display:flex;flex-direction: row">
+            <div>
+                <svg id="unicef-plot" style="border: 1px solid white;font-family:'Open Sans', sans-serif;"></svg>
+                <div style="margin-top:25px;text-align: center">
+                    <button id="play-btn">Play</button>
+                    <button id="pause-btn">Pause</button>
+                    <button id="forward-btn">Step Forward</button>
+                    <button id="backward-btn">Step Backward</button>
+                </div>
+            </div>
+            <div class="unicef-plot-legend instruction">
+                <h2>Total Population: <span id="unicef-plot-population"></span></h2>
+                <div class="legend-row">
+                    <div class="mark" style="background-color:red;width: 25%">
+                        <span class="instruction" id="unicef-plot-surface"></span>
+                    </div>
+                    <div style="width:75%">
+                        <p>Surface Water Only</p>
+                        <p>There are no structures to retrieve clean water within a reasonable distance, so
+                            residents must collect water
+                        from the surface wherever available, however contaminated it may be.</p>
+                    </div>
+                </div>
+
+                <div class="legend-row">
+                    <div class="mark" style="background-color:orange;width: 25%">
+                        <span class="instruction" id="unicef-plot-unimproved"></span>
+                    </div>
+                    <div style="width:75%">
+                        <p>Unimproved Water Sources</p>
+                        <p>Clean water is available, but it's more than a 30 minute round trip.</p>
+                    </div>
+                </div>
+
+                <div class="legend-row">
+                    <div class="mark" style="background-color:tan;width: 25%">
+                        <span class="instruction" id="unicef-plot-limited"></span>
+                    </div>
+                    <div style="width:75%">
+                        <p>Limited Drinking Water Service</p>
+                        <p>Clean water is available within a 30 minutes round trip.</p>
+                    </div>
+                </div>
+
+                <div class="legend-row">
+                    <div class="mark" style="background-color:blue;width: 25%">
+                        <span class="instruction" id="unicef-plot-basic"></span>
+                    </div>
+                    <div style="width:75%">
+                        <p>Basic Drinking Water Service</p>
+                        <p>Clean water is reliably available locally.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src="js/TweenMax.min.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/water_map.js"></script>
+<script src="js/d3_plots/unicef_plot.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT1A2ZIJ_RQFILdUDkiLE61jj-UAUnVrg&libraries=geometry&callback=initMap"
+        async defer></script>
+<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+</body>
+</html>

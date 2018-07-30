@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>DataViz Final Project</title>
+		<meta name="description" content="A full image reveal effect with thumbnail sliding." />
+		<meta name="keywords" content="reveal, thumbnails, effect, fullscreen images, slide, web design, demo" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="favicon.ico">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="css/twv.css" />
+		<script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
+	</head>
+	<body class="loading" style="url('img/main_bg.jpg')">
+    <div id="about">
+        <p>
+            Developed by Dominic Fitzgerald<br/>For CS 498 Data Visualization
+        </p>
+        <p>
+            I developed this magazine style visualization as a fundraising tool for the group Team World
+            Vision, which I’m going into my third year as a member of. We are a charity running the Chicago
+            Marathon, and our fundraising efforts to go supporting World Vision’s work on bringing clean water
+            to communities where there is need in a handful of African countries. Some of this is a little
+            incomplete visually, but all the important data visualization elements are there in keeping with
+            this assignment (I do plan on polishing this up later, since it will have a life beyond this
+            assignment). Please also note that this magazine is designed to run on a desktop browser with
+            at least 1400px of width, and on a modern up-to-date browser. I haven’t done any mobile
+            optimization at this point.
+        </p>
+        <p>
+            This narrative visualization follows an interactive slideshow model. There are three
+            main slides, and then a fourth slide which basically just asks for a donation
+            (obviously for this class project that’s not really meant for you, but I won’t
+            turn you down!) and so it isn’t really part of the slideshow.
+        </p>
+        <p>
+            The first scene, entitled “Water is Essential” aims to convince the user that there is a
+            global water crisis in the first place, since at least in the US awareness is low. The first
+            interactive part of this scene is a Google Maps demo (obviously it isn’t d3 and so probably
+            doesn’t count for this assignment) that asks the user to guess a distance that equals
+            the distance that African women and children must walk every day to fetch clean water.
+            The real answer is over 2 million kilometers, so basically no matter what the user inputs
+            it’ll be a vast underestimation, which is the point.
+        </p>
+        <p>
+            The second interactive part (the d3 visualization of interest to my peer graders) uses a dataset
+            from UNICEF to show the proportion of access to clean water for various African countries. The user
+            will see that in 2000, the amount of people who had access to surface water only is alarmingly high
+            in some countries. By 2015 the continent is doing better, but there is still work to be done in some
+            of the more rural countries. The x-axis is percent of population that lives in urban areas, where higher
+            urban countries tend to have better clean water systems. Annotations on here are hinted in the description
+            above the plot, where uses are asked to hover over a bubble. When hovered, the right panel will display
+            numerical information for the selected country in the given year. The user can also move forward and
+            backward through the years, or hit play to have years automatically cycle. The parameters are the year
+            for which data is displayed, and the triggers are the button press or a mouse hover on a bubble.
+        </p>
+        <p>
+            The second scene, called “You Will Be Like a Well-Watered Garden” (from a Bible verse, Isaiah 58:11,
+            which World Vision references on occasion for this project), shows the work World Vision does in
+            the field. The target for the WASH programs is a subset of African countries, and those countries
+            are highlighted on a map. The data comes from World Vision field reports. When the user hovers over a
+            country, the bars below show numbers on what World Vision did in the communities in that country for
+            the Fiscal Year 2017. This is a d3 map, but uses a library called DataMaps (because I don’t know how
+            I could have possibly done this from scratch), so if you don’t want to consider this toward the assignment
+            because I used a library, that’s fine. If you do, the annotations are the country’s name and region and
+            the dynamics progress bar which show how much of a goal was achieved. The parameter is the country chosen,
+            and the trigger is a hover over the country area. The user is suggested to hover over the countries
+            because they are highlighted while all others in the world are grayed out, and also in the description
+            above the map.
+        </p>
+        <p>
+            The third scene, called “We Run Because We Care”, allows the user to explore runner data for all
+            Team World Vision Chicago Marathon runners from 2010 to 2017. The data was provided to me by Team World Vision.
+            Since our main purpose for running is
+            fundraising, the visualization plots a runner’s pre-season fundraising goal vs the final amount
+            fundraised. A line along the x=y axis helps to show which runners actually met their goal. Each data
+            point is a particular runner in a particular year, which means some runners may be plotted multiple
+            times if they’ve run more than one year. Hovering over a point highlights that point and draws a line
+            between all the points that belong to that runner. Filters allow the user to narrow the data down to
+            some potentially interesting categories, such as only new runners, only those who met their goal, or
+            only team captains. Annotations include the total number of runners for a given filter, as well as
+            numerical goal and final fundraising amount when hovering over a data point. The parameter is the
+            filtering the user selects. The triggers are selecting a filter category or hovering over a data point.
+        </p>
+        <button id="close-essay" style="margin-bottom: 100px;">Close this Essay</button>
+    </div>
+
+		<svg class="hidden">
+			<symbol id="icon-arrow" viewBox="0 0 24 24">
+				<title>arrow</title>
+				<polygon points="6.3,12.8 20.9,12.8 20.9,11.2 6.3,11.2 10.2,7.2 9,6 3.1,12 9,18 10.2,16.8 "/>
+			</symbol>
+			<symbol id="icon-drop" viewBox="0 0 24 24">
+				<title>drop</title>
+				<path d="M12,21c-3.6,0-6.6-3-6.6-6.6C5.4,11,10.8,4,11.4,3.2C11.6,3.1,11.8,3,12,3s0.4,0.1,0.6,0.3c0.6,0.8,6.1,7.8,6.1,11.2C18.6,18.1,15.6,21,12,21zM12,4.8c-1.8,2.4-5.2,7.4-5.2,9.6c0,2.9,2.3,5.2,5.2,5.2s5.2-2.3,5.2-5.2C17.2,12.2,13.8,7.3,12,4.8z"/><path d="M12,18.2c-0.4,0-0.7-0.3-0.7-0.7s0.3-0.7,0.7-0.7c1.3,0,2.4-1.1,2.4-2.4c0-0.4,0.3-0.7,0.7-0.7c0.4,0,0.7,0.3,0.7,0.7C15.8,16.5,14.1,18.2,12,18.2z"/>
+			</symbol>
+			<symbol id="icon-plus" viewBox="0 0 25 24">
+				<title>plus</title>
+				<path d="M13.568 11.216h11.216v1.568H13.568V24H12V12.784H.784v-1.568H12V0h1.568v11.216z"/>
+			</symbol>
+			<symbol id="icon-arrowdown" viewBox="0 0 12 25">
+				<title>arrow down</title>
+				<path d="M4.916.3v21.017l-3.563-3.564L.25 18.856 5.7 24.3l5.45-5.444-1.102-1.103-3.564 3.564V.3z"/>
+			</symbol>
+		</svg>
+		<main>
+            <button id="open-essay" style="position:absolute;top:25px;left:25px">About This Visualization</button>
+
+            <div class="logo">
+                <img src="img/TWV_logo.png" />
+            </div>
+			<div class="message">View on a larger screen to see the effect</div>
+			<!-- Grid lines -->
+			<!--<div class="grid grid&#45;&#45;deco">-->
+				<!--<div class="grid__box"></div>-->
+				<!--<div class="grid__box"></div>-->
+				<!--<div class="grid__box"></div>-->
+				<!--<div class="grid__box"></div>-->
+				<!--<div class="grid__box"></div>-->
+			<!--</div>&lt;!&ndash;/grid&#45;&#45;deco&ndash;&gt;-->
+			<!-- Outer grid (header, title, etc.) -->
+			<div class="grid grid--outer">
+				<!--<header class="codrops-header">-->
+					<!--<div class="codrops-links">-->
+						<!--<a class="codrops-icon codrops-icon&#45;&#45;prev" href="https://tympanus.net/Development/CollapsingLogo/" title="Previous Demo"><svg class="icon icon&#45;&#45;arrow"><use xlink:href="#icon-arrow"></use></svg></a>-->
+						<!--<a class="codrops-icon codrops-icon&#45;&#45;drop" href="https://tympanus.net/codrops/?p=35087" title="Back to the article"><svg class="icon icon&#45;&#45;drop"><use xlink:href="#icon-drop"></use></svg></a>-->
+					<!--</div>-->
+					<!--<h1 class="codrops-header__title">Full Image Reveal Effect</h1>-->
+				<!--</header>-->
+				<div class="title-wrap">
+					<h2 class="title">A bold vision to solve <br/>the global water crisis by 2030</h2>
+					<!--<span class="subtitle">selected projects</span>-->
+					<!--<span class="year">2018</span>-->
+				</div>
+				<!--<a href="https://github.com/codrops/FullImageReveal/" class="github">GitHub</a>-->
+				<!--<div class="side">-->
+					<!--<span class="side__content">Produced in London</span>-->
+					<!--<span class="side__content">Made by Brain Gap</span>-->
+				<!--</div>-->
+			</div><!--/grid--outer-->
+			<!-- Full view container -->
+			<div class="fullview">
+
+
+
+
+				<!-- Water Section Content -->
+                <div class="fullview__item page" id="water-section" style="background-image: url(img/water_bg.jpg)">
+                    <span class="fullview__item-number" style="color:white">Water is Essential</span>
+                    <section style="margin:0;grid-template-columns: 50% 50%">
+                        <div class="col-content">
+                            <p class="large-first-letter">
+                                In a developed nation such as the US, access to water is not only assumed to be immediately available but
+                                also assumed to be safe. In this context, safe means there’s an extremely low chance of contracting
+                                an illness as a direct result drinking the water supply. In many of the poorest parts of the world,
+                                water borne diseases and water contamination is a real threat and a constant drag on quality of life.
+                                This is the <span class="med-text">Global Water Crisis</span>.
+                            </p>
+                            <p>
+                                Access to clean water is foundational: when this basic need is not met consistently, it averts
+                                time and effort away from other community-building activities. When it is no longer a primary
+                                issue, people are able to improve their hygiene and sanitation. Children are able to attend school
+                                without other duties demanding their attention, and adults can tend to crops and livestock or start
+                                businesses. But it all comes out of a bedrock of local, consistent access to clean water.
+                            </p>
+                            <p>
+                                Though this certainly is a global problem (it’s in the name, after all), the efforts of Team
+                                World Vision are focused on a subset of African countries of greatest need, and so this
+                                publication will primarily present data on the African continent.
+                            </p>
+                        </div>
+                        <div class="col-content" style="display: grid;grid-template-columns: 97% 3%">
+                            <div>
+                                <p class="instruction">
+                                    Click on the bottom of the globe and drag up until you've reached the percentage
+                                    you believe represents the amount of people in the world that have access to
+                                    clean water. (This doesn't work yet, so ignore it)
+                                </p>
+                                <div id="water-globe-demo">
+                                    <object type="image/svg+xml" data="img/earth-icon.svg">
+                                        Your browser does not support SVG
+                                    </object>
+                                </div>
+                            </div>
+
+                            <div class="twv-orange-sideliner"></div>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="col-content">
+                            <p class="large-first-letter">
+                                The group most directly affected by the Global Water Crisis are women and children. Strictly considering health,
+                                children are most vulnerable to disease which may be lurking in unsanitary water such as cholera or
+                                typhoid, leading to extended time away from school or (not too uncommonly) death. Disproportionately,
+                                women and girls are tasked with the physical collection of clean water from the nearest source, which
+                                can be many kilometers away. It’s estimated that African women and girls collectively spend
+                                <span class="med-text">200 million hours</span> each day in collection, half of which involved
+                                hauling a jerrycan which can weigh up to 18 kilograms.
+                            </p>
+                            <div style="display:grid;grid-template-columns: 2% 63% 35%">
+                                <div class="twv-orange-sideliner"></div>
+                                <div id="water-map-interactive-1" style="margin:0 5%">
+                                    <div id="map" style="height: 500px"></div>
+                                    <div class="progress-bar blue stripes">
+                                        <span id="water-progress-bar-bar" style="width:0"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="instruction">
+                                        How far do you think African children, mostly girls, as a whole group walk daily to collect
+                                        clean water?
+                                    </p>
+                                    <div style="width:80%;height:5px;background-color:#F37022;margin:0 auto"></div>
+                                    <p class="instruction">
+                                        Starting from Los Angeles, CA, click on the map to create a path representing the
+                                        distance you imagine represents the daily journey. Double click on the green icon to finish
+                                        your path and calculate the distance.
+                                    </p>
+                                    <div id="water-result" style="display:none">
+                                        <p class="instruction">
+                                            Your path is <span id="water-user-distance" class="med-text"></span> kilometers.
+                                        </p>
+                                        <p class="instruction">
+                                            Based on UNICEF estimates of 3.36 million children being responsible for water collection which
+                                            is more than 30 minutes away, and having to walk on average 6 kilometers to collect that water,
+                                            that's a total traveled distance of 2,016,000 kilometers. Your path is only covers
+                                            <span id="water-user-distance-percent"></span>% of that distance.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="col-content">
+                            <p class="large-first-letter">Efforts to address the Global Water Crisis in the past couple
+                                decades have started to improve clean water access on the African continent. Data from UNICEF, a United
+                                Nations relief organization,
+                                shows that since 2000 the impact of the crises has been improving markedly in some areas, while maintaining
+                                a grip on other area, primarily those whose population is less urban. Urban areas are more likely to
+                                not only have clean water systems, but system within a reasonable distance from a community. Rural areas
+                                may have systems available, but they are either off-site locally (within a 30 minute walk round trip) or
+                                not available locally (more than a 30 minutes walk round trip). In extreme cases, no water system is
+                                available to a community within any reasonable distance, so it must rely on surface water which may be
+                                contaminated by animal feces.</p>
+                            <p>
+                                Even as of 2015, some countries still have an alarmingly low percentage of residents with immediate
+                                access to clean water, considered basic service. It's these countries where World Vision tends to
+                                concentrate its efforts to bring accessible clean water to communities.
+                            </p>
+                        </div>
+                        <div class="col-content" style="display:flex;flex-direction: row">
+                            <div>
+                                <p class="instruction">
+                                    Hover over a bubble to see numerical data representing how much of a country's
+                                    population has access to clean water. Click the buttons below to step through the
+                                    years, or hit play to have them cycle automatically.
+                                </p>
+                                <svg id="unicef-plot" style="border: 1px solid white;font-family:'Open Sans', sans-serif;"></svg>
+                                <div style="margin-top:25px;text-align: center">
+                                    <button id="play-btn">Play</button>
+                                    <button id="pause-btn">Pause</button>
+                                    <button id="forward-btn">Step Forward</button>
+                                    <button id="backward-btn">Step Backward</button>
+                                </div>
+                            </div>
+                            <div class="unicef-plot-legend instruction">
+                                <h2>Total Population: <span id="unicef-plot-population"></span></h2>
+                                <div class="legend-row">
+                                    <div class="mark" style="background-color:red;width: 25%">
+                                        <span class="instruction" id="unicef-plot-surface"></span>
+                                    </div>
+                                    <div style="width:75%">
+                                        <p>Surface Water Only</p>
+                                        <p>There are no structures to retrieve clean water within a reasonable distance, so
+                                            residents must collect water
+                                            from the surface wherever available, however contaminated it may be.</p>
+                                    </div>
+                                </div>
+
+                                <div class="legend-row">
+                                    <div class="mark" style="background-color:orange;width: 25%">
+                                        <span class="instruction" id="unicef-plot-unimproved"></span>
+                                    </div>
+                                    <div style="width:75%">
+                                        <p>Unimproved Water Sources</p>
+                                        <p>Clean water is available, but it's more than a 30 minute round trip.</p>
+                                    </div>
+                                </div>
+
+                                <div class="legend-row">
+                                    <div class="mark" style="background-color:tan;width: 25%">
+                                        <span class="instruction" id="unicef-plot-limited"></span>
+                                    </div>
+                                    <div style="width:75%">
+                                        <p>Limited Drinking Water Service</p>
+                                        <p>Clean water is available within a 30 minutes round trip.</p>
+                                    </div>
+                                </div>
+
+                                <div class="legend-row">
+                                    <div class="mark" style="background-color:blue;width: 25%">
+                                        <span class="instruction" id="unicef-plot-basic"></span>
+                                    </div>
+                                    <div style="width:75%">
+                                        <p>Basic Drinking Water Service</p>
+                                        <p>Clean water is reliably available locally.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+
+
+
+
+
+
+                <!-- World Vision WASH Section -->
+                <div class="fullview__item page" id="world-vision-wash-section" style="display:grid;opacity:0;background-image: url(img/Selection_286.png)">
+                    <span class="fullview__item-number" style="color:white">"You Will Be Like a Well-Watered Garden"</span>
+                    <section style="margin:0">
+                        <div class="col-content">
+                            <div style="display:grid;grid-template-columns: 2% 98%">
+                                <div class="twv-orange-sideliner"></div>
+                                <div style="padding-left: 25px">
+                                    <p class="large-first-letter">
+                                        World Vision is a Christian humanitarian aid organization dedicated to working with
+                                        children, families, and communities to overcome poverty and injustice. While World
+                                        Vision takes part in relief around the world and in many different disciplines, the
+                                        most foundational work is done in bringing clean water to areas where it isn’t
+                                        currently available.
+                                    </p>
+                                    <p>
+                                        The discipline is called WASH, for Water, Sanitation, and Hygiene, and World Vision is
+                                        the leading non-government organization on the African continent dedicated to serving
+                                        communities in this way. Having made a strategic decision to ramp up its WASH efforts
+                                        in 2010, it has since been able to bring sustainable and local clean water systems to
+                                        more than 5.7 million people. The ultimate goal and bold vision is to eradicate the
+                                        water crisis in all area where World Vision works by 2030. Work to that end is
+                                        summarized in the visualization below.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p class="instruction">
+                                The countries highlighted below are where World Vision concentrates its WASH programs. Hover
+                                over a country to show numerical data for certain target categories for the fiscal
+                                year 2017, shown below the map. The bars indicate the percent achieved in 2017 of the
+                                goal for that target category, by region.
+                            </p>
+                            <iframe onload="doneLoadingIframe()" id="datamap-frame" frameborder="0" scrolling="no" src="datamap_africa.html" style="width:100%;height:1500px"></iframe>
+                        </div>
+                    </section>
+                </div>
+
+
+
+
+
+
+
+
+
+                <!-- Runners Section -->
+                <div class="fullview__item page" id="runners-section" style="background-image: url(img/runners_bg.jpg)">
+                    <span class="fullview__item-number" style="color:white">We Run Because We Care</span>
+                    <section style="margin:0;grid-template-columns: 50% 50%">
+                        <div class="col-content">
+                            <p class="large-first-letter">
+                                People tend to have their favorite adjectives to describe those who willingly run 26.2
+                                miles: insane, crazy, nuts. It’s a test of physical and mental endurance to be
+                                undertaken without some thought. That hardly means we shouldn’t try.
+                            </p>
+                            <p>
+                                Running with a team is a blessing: we keep each other going when it gets tough, and
+                                share each other’s joy upon reaching new heights. It’s a special kind of
+                                friendship that forms from 20-mile training runs and hours together on the trails
+                                with nothing to do but talk about anything and everything (of course followed by a
+                                plunge in Lake Michigan). Joining Team World Vision to run this crazy race is easily
+                                the highlight of my summers and one of the best decisions I’ve made in my short time
+                                in Chicago.
+                            </p>
+
+                        </div>
+                        <div class="col-content" style="display: grid;grid-template-columns: 97% 3%">
+                            <div>
+
+                                <p>
+                                    But this isn’t for me. It’s not about me. Maybe at first it was, sure, but that
+                                    perspective as evolved as I’ve been around these other people so passionate to
+                                    protect those who need it most from a dangerous and untenable situation. We run
+                                    because it allows us an opportunity to raise powerful dollars that save precious
+                                    lives and transform whole communities.
+                                </p>
+                                <p>
+                                    Yes the miles, the time commitment, the constant pounding of foot to pavement are a
+                                    challenge to be sure, but for us on Team World Vision that’s only half the battle.
+                                    It’s a rare personality trait that enjoys asking friends and family to part with
+                                    their money. Some are better at it than others, as the visualization below testifies,
+                                    but all of use are committed to doing what we can to ensure the vital work that World
+                                    Vision does never needs to scale back because of finances.
+                                </p>
+                            </div>
+
+                            <div class="twv-orange-sideliner"></div>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="col-content">
+                            <p class="instruction">
+                                This plot shows all runners registered with Team World Vision for the Chicago Marathon
+                                in the years 2010 to 2017. Because some people (the really insane ones) like to do this
+                                more than once, some runners are plotted multiple times representing different years. Hovering
+                                over a data point will show the numerical fundraising goal and final fundraising amount
+                                as well as link visually to all the other years that runner has ran with Team World Vision.
+                                The filter box will show only the data points which match the filter description.
+                            </p>
+                            <div style="border: 3px solid white;width:100%" class="instruction" id="runner-plot-wrapper">
+                                <div style="margin-top: 25px;margin-left:25px">
+                                    <span>Filter to: </span>
+                                    <select id="runner-plot-filter">
+                                        <option value="all">All</option>
+                                        <option value="goal_met">Goal Met</option>
+                                        <option value="new_runner">New Runners</option>
+                                        <option value="returning_runners">Returning Runners</option>
+                                        <option value="male_runners">Male Runners</option>
+                                        <option value="female_runners">Female Runners</option>
+                                        <option value="team_captains">Team Captains</option>
+                                    </select>
+                                    <span style="margin-left:25px">Total Runners: <span id="runners-total">5034</span></span>
+
+                                    <span id="goal-total"></span>
+                                    <span id="fundraised-total"></span>
+                                </div>
+
+                                <svg id="runner-plot" style="width:100%"></svg>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+
+
+
+
+
+
+				<div class="fullview__item page" style="background-image: url(img/donate_bg.jpg)">
+                    <span class="fullview__item-number" style="color:white">Continue the Work</span>
+                    <section style="margin:0">
+                        <div class="col-content">
+                            <div style="display:grid;grid-template-columns: 2% 98%">
+                                <div class="twv-orange-sideliner"></div>
+                                <div style="padding-left: 25px">
+                                    <p class="large-first-letter">
+                                        You have the easy job: you can stay on your couch where you never have to deal
+                                        with knee problems or sore legs or shin splints. We'll take care of all that.
+                                    </p>
+                                    <p>
+                                        But we do need you for something. We need you to take action and give out of
+                                        out your abundance and blessing to help supports brothers and sisters in crisis.
+                                        If this magazine has convinced you at all that there's a crisis that needs
+                                        a solution, please consider
+                                        <a href="https://www.teamworldvision.org/index.cfm?fuseaction=donate.participant&participantID=110271" target="_blank">
+                                            donating to World Vision
+                                            </a>. Every $50 of generousity
+                                        you give provides clean water for one child for his or her lifetime. That's
+                                        incredible value for less than the price of an XBox game.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+				</div>
+				<!--<h3 class="fullview__title">Andrew Jacobsen</h3>-->
+			</div><!--/fullview-->
+			<!-- Revealer element -->
+			<div class="revealer"></div>
+			<!-- Thumbs grid -->
+			<div class="grid grid--thumbs">
+				<div class="grid__item" data-revealer-color="url(img/reveal-splash-1.jpg)">
+					<h3 class="grid__item-title"><span>Water is Essential</span></h3>
+					<span class="grid__item-number"><span>01</span></span>
+					<div class="grid__item-imgwrap">
+						<img class="grid__item-img" src="img/thumb7.jpg" alt="Some image" />
+						<div class="grid__item-bg" style="background-image: url(img/thumb7.jpg)"></div>
+					</div>
+				</div>
+				<div class="grid__item" data-revealer-color="url(img/reveal-splash-2.jpg)">
+					<h3 class="grid__item-title"><span>A Well-Watered Garden</span></h3>
+					<span class="grid__item-number"><span>02</span></span>
+					<div class="grid__item-imgwrap">
+						<img class="grid__item-img" src="img/thumb8.jpg" alt="Some image" />
+						<div class="grid__item-bg" style="background-image: url(img/thumb8.jpg)"></div>
+					</div>
+				</div>
+				<div class="grid__item" data-revealer-color="url(img/reveal-splash-3.jpg)">
+					<h3 class="grid__item-title"><span>We Run Because We Care</span></h3>
+					<span class="grid__item-number"><span>03</span></span>
+					<div class="grid__item-imgwrap">
+						<img class="grid__item-img" src="img/thumb9.jpg" alt="Some image" />
+						<div class="grid__item-bg" style="background-image: url(img/thumb9.jpg)"></div>
+					</div>
+				</div>
+				<div class="grid__item" data-revealer-color="url(img/reveal-splash-4.jpg)">
+					<h3 class="grid__item-title"><span>Take Action</span></h3>
+					<span class="grid__item-number"><span>04</span></span>
+					<div class="grid__item-imgwrap">
+						<img class="grid__item-img" src="img/thumb10.jpg" alt="Some image" />
+						<div class="grid__item-bg" style="background-image: url(img/thumb10.jpg)"></div>
+					</div>
+				</div>
+				<div class="grid__item grid__item--more">
+					<button class="grid__toggle"  style="background-color:#F37022;opacity:0.6">
+                        <span style="position:absolute;top:50%;font-size:5rem"><span class="fas fa-arrow-up"></span></span>
+						<!--<span class="grid__toggle-inner grid__toggle-more">-->
+							<!--<span class="grid__toggle-text">more</span>-->
+							<!--<svg class="grid__toggle-icon grid__toggle-icon&#45;&#45;more"><use xlink:href="#icon-plus"></use></svg>-->
+						<!--</span>-->
+						<span class="grid__toggle-inner grid__toggle-back">
+							<span class="grid__toggle-text" style="font-size: 5rem">
+                                  back</span>
+							<svg class="grid__toggle-icon"><use xlink:href="#icon-arrowdown"></use></svg>
+						</span>
+					</button>
+				</div>
+			</div><!--/grid--thumbs-->
+		</main>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+		<script src="js/imagesloaded.pkgd.min.js"></script>
+		<script src="js/TweenMax.min.js"></script>
+		<script src="js/demo.js"></script>
+        <script src="js/water_map.js"></script>
+        <script src="js/d3_plots/unicef_plot.js"></script>
+        <script src="js/d3_plots/runners_plot.js"></script>
+        <script>
+            function doneLoadingIframe() {
+                $('#world-vision-wash-section').css({'display': 'none', 'opacity': '1'});
+            }
+            $(document).ready(function() {
+                $('#open-essay').click(function() {
+                    $('#about').css('display', 'block');
+                });
+                $('#close-essay').click(function() {
+                    $('#about').css('display', 'none');
+                });
+            });
+
+        </script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT1A2ZIJ_RQFILdUDkiLE61jj-UAUnVrg&libraries=geometry&callback=initMap"
+				async defer></script>
+	</body>
+</html>
