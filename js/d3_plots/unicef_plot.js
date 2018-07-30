@@ -61,7 +61,7 @@ function getStackedCircle(circles, updateGroupElement, shouldSort) {
 
     // Create the first circle, which will always be full
     var arc = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    arc.setAttribute('d', describeArc(0, 0, 1, 0, 360));
+    arc.setAttribute('d', describeArc(0, 0, 1, 0.1, 359.9));
     arc.style.fill = circles[0].fill;
     g.appendChild(arc);
 
@@ -81,7 +81,7 @@ function getStackedCircle(circles, updateGroupElement, shouldSort) {
 
     // Place empty fill circle to add a border
     var border = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    border.setAttribute('d', describeArc(0, 0, 1, 0, 360));
+    border.setAttribute('d', describeArc(0, 0, 1, 0.1, 359.9));
     border.style.fill = arraySum(circles.map(function(v){return v.percent})) === 0 ? 'black' : 'none';
     border.style.stroke = 'grey';
     border.style.strokeWidth = '0.05px';
