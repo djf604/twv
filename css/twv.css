@@ -399,8 +399,11 @@ table {
 
 .title {
   margin: 0;
-  font-size: 2rem;
+  font-size: 3rem;
   line-height: 1.2;
+  position: absolute;
+  top: 25px;
+  left: 25px;
 }
 
 .subtitle {
@@ -476,7 +479,7 @@ table {
   }
 
   .title {
-    font-size: 2.75vw;
+    font-size: 3.5vw;
   }
   .title img {
     width: 50%;
@@ -937,6 +940,16 @@ svg:not(:root) {
   z-index: 50;
   padding: 10%;
   overflow: scroll;
+}
+
+.fifty-table {
+  width: 100%;
+}
+.fifty-table td:nth-child(1) {
+  text-align: center;
+}
+.fifty-table-em {
+  font-size: 3rem;
 }
 
 /*# sourceMappingURL=twv.css.map */

@@ -3,91 +3,16 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>DataViz Final Project</title>
+		<title>Team World Vision</title>
 		<meta name="description" content="A full image reveal effect with thumbnail sliding." />
 		<meta name="keywords" content="reveal, thumbnails, effect, fullscreen images, slide, web design, demo" />
 		<meta name="author" content="Codrops" />
 		<link rel="shortcut icon" href="favicon.ico">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="css/twv.css" />
 		<script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
 	</head>
-	<body class="loading" style="url('img/main_bg.jpg')">
-    <div id="about">
-        <p>
-            Developed by Dominic Fitzgerald<br/>For CS 498 Data Visualization
-        </p>
-        <p>
-            I developed this magazine style visualization as a fundraising tool for the group Team World
-            Vision, which I’m going into my third year as a member of. We are a charity running the Chicago
-            Marathon, and our fundraising efforts to go supporting World Vision’s work on bringing clean water
-            to communities where there is need in a handful of African countries. Some of this is a little
-            incomplete visually, but all the important data visualization elements are there in keeping with
-            this assignment (I do plan on polishing this up later, since it will have a life beyond this
-            assignment). Please also note that this magazine is designed to run on a desktop browser with
-            at least 1400px of width, and on a modern up-to-date browser. I've found this is
-            best viewed in Firefox because of how Chrome draws arcs. I haven’t done any mobile
-            optimization at this point.
-        </p>
-        <p>
-            This narrative visualization follows an interactive slideshow model. There are three
-            main slides, and then a fourth slide which basically just asks for a donation
-            (obviously for this class project that’s not really meant for you, but I won’t
-            turn you down!) and so it isn’t really part of the slideshow.
-        </p>
-        <p>
-            The first scene, entitled “Water is Essential” aims to convince the user that there is a
-            global water crisis in the first place, since at least in the US awareness is low. The first
-            interactive part of this scene is a Google Maps demo (obviously it isn’t d3 and so probably
-            doesn’t count for this assignment) that asks the user to guess a distance that equals
-            the distance that African women and children must walk every day to fetch clean water.
-            The real answer is over 2 million kilometers, so basically no matter what the user inputs
-            it’ll be a vast underestimation, which is the point.
-        </p>
-        <p>
-            The second interactive part (the d3 visualization of interest to my peer graders) uses a dataset
-            from UNICEF to show the proportion of access to clean water for various African countries. The user
-            will see that in 2000, the amount of people who had access to surface water only is alarmingly high
-            in some countries. By 2015 the continent is doing better, but there is still work to be done in some
-            of the more rural countries. The x-axis is percent of population that lives in urban areas, where higher
-            urban countries tend to have better clean water systems. Annotations on here are hinted in the description
-            above the plot, where uses are asked to hover over a bubble. When hovered, the right panel will display
-            numerical information for the selected country in the given year. Annotations
-            are not cleared until the user hovers over another bubble. The user can also move forward and
-            backward through the years, or hit play to have years automatically cycle. The parameters are the year
-            for which data is displayed, and the triggers are the button press or a mouse hover on a bubble.
-        </p>
-        <p>
-            The second scene, called “You Will Be Like a Well-Watered Garden” (from a Bible verse, Isaiah 58:11,
-            which World Vision references on occasion for this project), shows the work World Vision does in
-            the field. The target for the WASH programs is a subset of African countries, and those countries
-            are highlighted on a map. The data comes from World Vision field reports. When the user hovers over a
-            country, the bars below show numbers on what World Vision did in the communities in that country for
-            the Fiscal Year 2017. This is a d3 map, but uses a library called DataMaps (because I don’t know how
-            I could have possibly done this from scratch), so if you don’t want to consider this toward the assignment
-            because I used a library, that’s fine. If you do, the annotations are the country’s name and region and
-            the dynamics progress bar which show how much of a goal was achieved. The parameter is the country chosen,
-            and the trigger is a hover over the country area. The user is suggested to hover over the countries
-            because they are highlighted while all others in the world are grayed out, and also in the description
-            above the map.
-        </p>
-        <p>
-            The third scene, called “We Run Because We Care”, allows the user to explore runner data for all
-            Team World Vision Chicago Marathon runners from 2010 to 2017. The data was provided to me by Team World Vision.
-            Since our main purpose for running is
-            fundraising, the visualization plots a runner’s pre-season fundraising goal vs the final amount
-            fundraised. A line along the x=y axis helps to show which runners actually met their goal. Each data
-            point is a particular runner in a particular year, which means some runners may be plotted multiple
-            times if they’ve run more than one year. Hovering over a point highlights that point and draws a line
-            between all the points that belong to that runner. Annotations are cleared when the user hovers over
-            another data point. Filters allow the user to narrow the data down to
-            some potentially interesting categories, such as only new runners, only those who met their goal, or
-            only team captains. Annotations include the total number of runners for a given filter, as well as
-            numerical goal and final fundraising amount when hovering over a data point. The parameter is the
-            filtering the user selects. The triggers are selecting a filter category or hovering over a data point.
-        </p>
-        <button id="close-essay" style="margin-bottom: 100px;">Close this Essay</button>
-    </div>
+	<body class="loading" style="background-image: url('img/main_bg.jpg')">
 
 		<svg class="hidden">
 			<symbol id="icon-arrow" viewBox="0 0 24 24">
@@ -108,11 +33,11 @@
 			</symbol>
 		</svg>
 		<main>
-            <button id="open-essay" style="position:absolute;top:25px;left:25px">About This Visualization</button>
 
             <div class="logo">
                 <img src="img/TWV_logo.png" />
             </div>
+            <h2 class="title">A bold vision to solve <br/>the global water crisis by 2030</h2>
 			<div class="message">View on a larger screen to see the effect</div>
 			<!-- Grid lines -->
 			<!--<div class="grid grid&#45;&#45;deco">-->
@@ -132,7 +57,7 @@
 					<!--<h1 class="codrops-header__title">Full Image Reveal Effect</h1>-->
 				<!--</header>-->
 				<div class="title-wrap">
-					<h2 class="title">A bold vision to solve <br/>the global water crisis by 2030</h2>
+
 					<!--<span class="subtitle">selected projects</span>-->
 					<!--<span class="year">2018</span>-->
 				</div>
@@ -175,13 +100,13 @@
                         </div>
                         <div class="col-content" style="display: grid;grid-template-columns: 97% 3%">
                             <div>
-                                <p class="instruction">
-                                    Click on the bottom of the globe and drag up until you've reached the percentage
-                                    you believe represents the amount of people in the world that have access to
-                                    clean water. (This doesn't work yet, so ignore it)
-                                </p>
+                                <!--<p class="instruction">-->
+                                    <!--Click on the bottom of the globe and drag up until you've reached the percentage-->
+                                    <!--you believe represents the amount of people in the world that have access to-->
+                                    <!--clean water. (This doesn't work yet, so ignore it)-->
+                                <!--</p>-->
                                 <div id="water-globe-demo">
-                                    <object type="image/svg+xml" data="img/earth-icon.svg">
+                                    <object type="image/svg+xml" data="img/earth-icon.svg" style="width:100%">
                                         Your browser does not support SVG
                                     </object>
                                 </div>
@@ -456,12 +381,41 @@
                     <span class="fullview__item-number" style="color:white">Continue the Work</span>
                     <section style="margin:0">
                         <div class="col-content">
+                            <div class="instruction" style="font-size:5rem;text-align:center">What can you buy with $50?</div>
+                            <table class="instruction fifty-table" style="font-size:2rem" cellpadding="25px">
+                                <tr>
+                                    <td style="color:#F37022"><i class="fas fa-coffee fa-3x"></i></td>
+                                    <td><span id="fifty-coffee" class="fifty-table-em">0.0</span> Starbucks Tall Pumpkin Spice Lattes</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:silver"><i class="fas fa-tv fa-3x"></i></td>
+                                    <td><span id="fifty-tv" class="fifty-table-em">0.0</span> months of Netflix Standard</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:green"><i class="fas fa-gas-pump fa-3x"></i></td>
+                                    <td><span  id="fifty-gas" class="fifty-table-em">~0</span> tanks of gas in California</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#594310"><i class="fas fa-football-ball fa-3x"></i></td>
+                                    <td><span id="fifty-football" class="fifty-table-em">0.0%</span> of a set at an average NFL game</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:mediumpurple"><i class="fas fa-graduation-cap fa-3x"></i></td>
+                                    <td><span id="fifty-education" class="fifty-table-em">0.0%</span> of a degree at University of Chicago</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:dodgerblue"><i class="fas fa-tint fa-3x"></i></td>
+                                    <td><span id="fifty-water" class="fifty-table-em">0 lifetime</span> of life-changing clean water</td>
+                                </tr>
+                            </table>
+                            <p style="font-size:3rem;text-align:center;padding:25px 0;border-top: 3px solid #F37022;">You have a part in this</p>
                             <div style="display:grid;grid-template-columns: 2% 98%">
                                 <div class="twv-orange-sideliner"></div>
                                 <div style="padding-left: 25px">
                                     <p class="large-first-letter">
-                                        You have the easy job: you can stay on your couch where you never have to deal
-                                        with knee problems or sore legs or shin splints. We'll take care of all that.
+                                        You needn't hit the pavement at 7am on Saturday morning to run double digit miles in
+                                        the rain, or deal with knee problems and shin splints and chaffing, or the doubling of
+                                        laundry frequency and tripling of grocery bills. We'll take care of all that.
                                     </p>
                                     <p>
                                         But we do need you for something. We need you to take action and give out of
@@ -472,7 +426,7 @@
                                             donating to World Vision
                                             </a>. Every $50 of generousity
                                         you give provides clean water for one child for his or her lifetime. That's
-                                        incredible value for less than the price of an XBox game.
+                                        incredible value for passing on just a handful of trips to Starbucks.
                                     </p>
                                 </div>
                             </div>
@@ -509,7 +463,7 @@
 						<div class="grid__item-bg" style="background-image: url(img/thumb9.jpg)"></div>
 					</div>
 				</div>
-				<div class="grid__item" data-revealer-color="url(img/reveal-splash-4.jpg)">
+				<div class="grid__item" data-revealer-color="url(img/reveal-splash-4.jpg)" id="take-action-button">
 					<h3 class="grid__item-title"><span>Take Action</span></h3>
 					<span class="grid__item-number"><span>04</span></span>
 					<div class="grid__item-imgwrap">
@@ -538,6 +492,7 @@
                 crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
 		<script src="js/imagesloaded.pkgd.min.js"></script>
+        <script src="js/countUp.js"></script>
 		<script src="js/TweenMax.min.js"></script>
 		<script src="js/demo.js"></script>
         <script src="js/water_map.js"></script>
@@ -547,6 +502,7 @@
             function doneLoadingIframe() {
                 $('#world-vision-wash-section').css({'display': 'none', 'opacity': '1'});
             }
+
             $(document).ready(function() {
                 $('#open-essay').click(function() {
                     $('#about').css('display', 'block');
@@ -554,6 +510,26 @@
                 $('#close-essay').click(function() {
                     $('#about').css('display', 'none');
                 });
+
+                $('#take-action-button').click(function() {
+                    window.setTimeout(function() {
+                        var coffee = new CountUp('fifty-coffee', 0.0, 11.7, 1);
+                        coffee.start();
+                        var tv = new CountUp('fifty-tv', 0.0, 4.5, 1);
+                        tv.start();
+                        var gas = new CountUp('fifty-gas', 0.0, 1.1, 1, 2, {prefix: '~'});
+                        gas.start();
+                        var football = new CountUp('fifty-football', 0.0, 29.6, 1, 2, {suffix: '%'});
+                        football.start();
+                        var education = new CountUp('fifty-education', 0.0, 0.065, 3, 2, {suffix: '%'});
+                        education.start();
+                        var water = new CountUp('fifty-water', 0, 1, 0, 2, {suffix: ' lifetime'});
+                        water.start();
+                    }, 2000);
+
+                });
+
+
             });
 
         </script>

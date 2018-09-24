@@ -375,8 +375,11 @@ table {
 }
 .title {
   margin: 0;
-  font-size: 2rem;
+  font-size: 3rem;
   line-height: 1.2;
+  position: absolute;
+  top: 25px;
+  left: 25px;
 }
 .subtitle {
   font-size: 1.25rem;
@@ -438,7 +441,7 @@ table {
     grid-area: 1 / 1 / 1 / 5;
   }
   .title {
-    font-size: 2.75vw;
+    font-size: 3.5vw;
 
     img {
       width: 50%;
@@ -901,4 +904,17 @@ svg:not(:root) {
   z-index: 50;
   padding: 10%;
   overflow: scroll;
+}
+
+.fifty-table {
+  width: 100%;
+
+  td:nth-child(1) {
+    text-align: center;
+  }
+  td:nth-child(2) {
+  }
+}
+.fifty-table-em {
+  font-size: 3rem;
 }
